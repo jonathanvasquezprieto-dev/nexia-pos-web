@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXIA POS • El Sistema Definitivo para Bares y Restaurantes</title>
+    <meta name="description" content="NEXIA POS: El software de punto de venta offline-first para bares y restaurantes en Colombia. Controla inventario, ventas y recibe cierres de caja por WhatsApp.">
+
+    <!-- Open Graph / Redes Sociales -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="NEXIA POS • El Sistema Definitivo para Bares y Restaurantes">
+    <meta property="og:description" content="Controla tu bar o restaurante sin depender del internet. Cierre de caja por WhatsApp. Offline-First. Hecho en Colombia.">
+    <meta property="og:image" content="logo-nexia.png">
+    <meta property="og:locale" content="es_CO">
+
+    <!-- Favicon -->
+    <link rel="icon" href="logo-nexia.png">
+    <link rel="apple-touch-icon" href="logo-nexia.png">
+
+    <!-- Google Fonts (como <link> para no bloquear render) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons (versión fija para evitar cambios inesperados) -->
+    <script src="https://unpkg.com/lucide@0.383.0/dist/umd/lucide.min.js"></script>
+
+    <style>
+        :root {
+            --bg-white: #FFFFFF;
+            --bg-alt: #E5E9F0; 
+            --bg-dark: #0A1128; 
+            --card: #FFFFFF;
+            --gold: #D4AF37;
+            --gold-light: rgba(212, 175, 55, 0.08);
+            --gold-dark: #B48E2D;
+            --text-main: #0F172A; 
+            --text-light: #F8FAFC;
+            --text-muted: #64748B;
+            --border: #CBD5E1; 
+            --border-dark: rgba(255,255,255,0.1);
+            --success: #10B981;
+            --wa-color: #25D366;
+            --text-muted-dark: rgba(248, 250, 252, 0.75);
+            
+            /* Sombras Premium */
+            --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 20px -5px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 20px 25px -5px rgba(212, 175, 55, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --card-hover-border: rgba(212, 175, 55, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-white); color: var(--text-main); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* NAVEGACIÓN */
+        nav { padding: 15px 0; display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+        .logo { font-weight: 800; font-size: 22px; color: var(--text-main); display: flex; align-items: center; gap: 10px; text-decoration: none; letter-spacing: -0.8px; }
+        .logo img { width: 32px; height: 32px; border-radius: 8px; }
+        .nav-actions { display: flex; align-items: center; gap: 8px; }
+
+        /* Botones */
+        .btn { padding: 14px 30px; border-radius: 12px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); font-size: 15px; cursor: pointer; border: none; text-align: center; }
+        .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: #000; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2); }
+        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4); }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-main); }
+        .btn-outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.03); }
+        .btn-outline-dark { background: transparent; border: 2px solid rgba(255,255,255,0.2); color: var(--text-light); }
+        .btn-outline-dark:hover { border-color: var(--gold); color: var(--gold); background: rgba(255,255,255,0.05); }
+        .btn-text { background: transparent; color: var(--text-muted); font-weight: 600; padding: 10px 15px; text-decoration: none; transition: 0.3s;}
+        .btn-text:hover { color: var(--text-main); }
+
+        /* HERO SECTION */
+        .hero { padding: 100px 0 140px; text-align: center; background-color: var(--bg-dark); color: var(--text-light); position: relative; }
+        .hero::before { content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 80%; height: 100%; background: radial-gradient(ellipse, rgba(212,175,55,0.15) 0%, rgba(10,17,40,0) 70%); z-index: 0; pointer-events: none; }
+        .hero-content { position: relative; z-index: 1; }
+        .tagline { color: var(--gold); font-weight: 700; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; }
+        .hero h1 { font-size: clamp(2.8rem, 6.5vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 25px; color: var(--text-light); letter-spacing: -2px; }
+        .hero h1 span { color: var(--gold); }
+        .hero p.description { font-size: 1.3rem; color: var(--text-muted-dark); max-width: 750px; margin: 0 auto 40px; font-weight: 400; }
+        .hero-buttons { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+              
+        /* Imagen del Sistema (Forzada a horizontal estricto) */
+        /* Imagen del Sistema (Proporción perfecta y corrección de espacios) */
+        .preview-img { 
+            width: 100%; 
+            max-width: 900px; /* Un tamaño ideal, ni muy gigante ni muy pequeño */
+            aspect-ratio: 16/9; /* Obliga a que tenga formato horizontal de pantalla (cine/TV) */
+            height: auto; /* ELIMINAMOS la guillotina. Esto evita que se corte la imagen */
+            object-fit: cover; 
+            object-position: center; 
+            border-radius: 20px; 
+            border: 4px solid var(--bg-dark); 
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.4); 
+            display: block; 
+            
+            /* LA MAGIA DE LOS ESPACIOS ESTÁ AQUÍ 👇 */
+            /* -120px (arriba): la sube hacia el fondo oscuro */
+            /* auto (lados): la centra */
+            /* -80px (abajo): Jala la sección siguiente hacia arriba para matar el espacio en blanco */
+            margin: -120px auto -80px; 
+            
+            position: relative; 
+            z-index: 2; 
+            background: var(--bg-dark); 
+        }
+
+        /* MÓDULOS */
+        .modules { padding: 120px 0 100px; background-color: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .section-header { text-align: center; margin-bottom: 80px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .section-header p.tagline { color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin-bottom: 15px; }
+        .section-header h2 { font-size: clamp(2.5rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; color: var(--text-main); }
+
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .module-card { background: var(--card); padding: 45px 35px; border-radius: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-md); transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); position: relative; display: flex; flex-direction: column; overflow: hidden; }
+        
+        .module-card:hover { border-color: var(--card-hover-border); transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+        .module-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; transform-origin: left; }
+        .module-card:hover::before { transform: scaleX(1); }
+
+        .icon-container { color: var(--gold); margin-bottom: 30px; background: var(--gold-light); width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.1); }
+        .icon-container i { width: 32px; height: 32px; }
+
+        .module-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 15px; color: var(--text-main); letter-spacing: -0.5px; }
+        .module-card p { color: var(--text-muted); font-size: 15.5px; line-height: 1.7; font-weight: 400; flex: 1; }
+
+        /* PRECIOS */
+        .pricing { padding: 120px 0; background-color: var(--bg-dark); position: relative; }
+        .pricing .section-header h2 { color: var(--text-light); }
+        .pricing .section-header p.tagline { color: var(--gold); }
+        
+        .pricing-grid { display: flex; gap: 35px; justify-content: center; flex-wrap: wrap; align-items: stretch; padding-top: 20px;}
+        .price-card { background: var(--card); padding: 50px 40px; border-radius: 24px; width: 100%; max-width: 380px; position: relative; border: 1px solid var(--border); display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.3); transition: 0.3s; }
+        .price-card:hover { transform: translateY(-5px); }
+        .price-card.popular { border: 3px solid var(--gold); transform: scale(1.05); box-shadow: 0 25px 50px rgba(0,0,0,0.4); z-index: 10; background: #FAFDFD; }
+        .price-card.popular .badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; padding: 6px 18px; border-radius: 20px; font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; }
+        
+        .price-header h3 { font-size: 19px; color: var(--text-main); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
+        .price-header .amount { font-size: 52px; font-weight: 800; margin-bottom: 30px; color: var(--text-main); letter-spacing: -2px; }
+        .price-header .amount span { font-size: 18px; color: var(--text-muted); font-weight: 500; }
+
+        .price-list { list-style: none; margin-bottom: 40px; flex: 1; }
+        .price-list li { margin-bottom: 18px; display: flex; align-items: flex-start; gap: 12px; font-size: 15.5px; color: var(--text-muted); }
+        .price-list li i { color: var(--success); flex-shrink: 0; margin-top: 3px; }
+        .price-list li.disabled { opacity: 0.45; }
+        .price-list li.disabled i { color: var(--text-muted); }
+
+        /* FAQ SECTION */
+        .faq-section { padding: 100px 0; background: var(--bg-alt); border-bottom: 1px solid var(--border); }
+        .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto; }
+        .faq-item { background: var(--card); padding: 35px; border-radius: 18px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); transition: 0.3s; }
+        .faq-item:hover { box-shadow: var(--shadow-md); border-color: rgba(212, 175, 55, 0.2); transform: translateY(-3px); }
+        .faq-item h4 { font-size: 18px; color: var(--text-main); margin-bottom: 12px; font-weight: 700; display: flex; gap: 12px; align-items: center; letter-spacing: -0.3px; }
+        .faq-item p { color: var(--text-muted); font-size: 15.5px; line-height: 1.7; }
+
+        /* TESTIMONIOS */
+        .testimonials { padding: 100px 0; background-color: var(--bg-white); }
+        .test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .test-card { background: var(--bg-alt); padding: 40px 35px; border-radius: 24px; position: relative; transition: 0.3s; border: 1px solid transparent; }
+        .test-card:hover { transform: translateY(-5px); background: #fff; border-color: var(--border); box-shadow: var(--shadow-lg); }
+        .test-stars { display: flex; gap: 4px; margin-bottom: 20px; }
+        .test-stars svg { width: 18px; height: 18px; fill: var(--gold); color: var(--gold); }
+        .test-text { font-size: 15.5px; color: var(--text-main); font-style: italic; margin-bottom: 25px; line-height: 1.6; font-weight: 400; }
+        .test-author { display: flex; align-items: center; gap: 15px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 20px; }
+        .test-avatar { width: 45px; height: 45px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; text-transform: uppercase; }
+        .test-info h5 { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 2px; }
+        .test-info span { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* CTA BOTTOM */
+        .cta-section { padding: 40px 20px 100px; text-align: center; background-color: var(--bg-white); }
+        .cta-box { background: var(--bg-dark); color: var(--text-light); padding: 80px 50px; border-radius: 28px; max-width: 950px; margin: 0 auto; box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4); position: relative; overflow: hidden; border: 1px solid var(--border-dark); }
+        .cta-box::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, rgba(255,255,255,0) 70%); }
+        .cta-box h2 { font-size: 3rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -2px; line-height: 1.1; position: relative; z-index: 1; }
+        .cta-box p { font-size: 1.25rem; margin-bottom: 40px; opacity: 0.8; font-weight: 400; max-width: 650px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
+        .btn-cta-final { position: relative; z-index: 1; }
+
+        /* FOOTER */
+        footer { padding: 70px 0 40px; background: var(--bg-white); font-size: 14.5px; border-top: 1px solid var(--border); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 50px; margin-bottom: 50px; }
+        
+        .footer-col { text-align: left; }
+        .footer-col h4 { color: var(--text-main); font-weight: 800; margin-bottom: 25px; font-size: 16px; letter-spacing: 0.5px; }
+        
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 14px; }
+        .footer-col ul li a { color: var(--text-muted); text-decoration: none; transition: 0.2s; display: inline-block; }
+        .footer-col ul li a:hover { color: var(--gold); transform: translateX(3px); }
+        
+        .brand-desc { color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; padding-right: 10px; font-size: 14.5px; }
+        .social-links { display: flex; gap: 12px; }
+        .social-links a { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: var(--bg-alt); color: var(--text-muted); transition: 0.3s ease; border: 1px solid var(--border); }
+        .social-links a:hover { background: var(--gold); color: #000; border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
+        
+        .footer-col ul li a.wa-link { color: var(--text-muted); display: flex; align-items: center; gap: 8px; font-weight: 600; }
+        .footer-col ul li a.wa-link:hover { color: var(--success); }
+        
+        .footer-bottom { text-align: center; padding-top: 40px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 14px; }
+        .powered { margin-top: 12px; font-weight: 800; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px; font-size: 12.5px; }
+
+        /* Botón Flotante WhatsApp */
+        .floating-wa { position: fixed; bottom: 30px; right: 30px; background: var(--wa-color); color: white; width: 62px; height: 62px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); z-index: 9999; transition: all 0.3s ease; text-decoration: none; }
+        .floating-wa:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6); }
+        .pulse-ring { position: absolute; border: 4px solid var(--wa-color); border-radius: 50%; width: 100%; height: 100%; animation: ping 2s infinite; opacity: 0.5; z-index: -1; }
+        @keyframes ping { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
+
+        /* MEDIA QUERIES */
+        @media (max-width: 992px) {
+            .hero { padding: 80px 0 100px; }
+            .hero h1 { font-size: 3rem; }
+            .preview-img { margin-top: -60px; margin-bottom: 80px; }
+            .cta-box h2 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            /* 1. Ajustes de Navegación y Header */
+            .nav-actions .btn-text { display: none; } 
+            .logo { font-size: 18px; }
+            .logo img { width: 28px; height: 28px; }
+            .nav-actions .btn-gold { padding: 10px 15px; font-size: 13px; }
+            
+            /* 2. Ajustes del Hero y Tipografía (Actualizado) */
+            .hero { padding: 60px 0 80px; }
+            .hero h1 { font-size: 1.8rem; line-height: 1.2; padding: 0 10px; letter-spacing: -1px; }
+            .hero p.description { font-size: 1.1rem; padding: 0 10px; }
+            .hero-buttons { flex-direction: column; width: 100%; gap: 12px; }
+            .hero-buttons .btn { width: 100%; padding: 16px; }
+
+            /* 3. Imagen Principal en Móviles (Actualizado) */
+            .preview-img { 
+                width: 95%; 
+                max-width: none; 
+                height: auto; 
+                aspect-ratio: auto; 
+                margin: -40px auto 40px; 
+                border-width: 2px; 
+                border-radius: 12px; 
+            }
+
+            /* 4. Módulos y Secciones */
+            .modules, .pricing, .faq-section, .testimonials { padding: 60px 0; }
+            .section-header { margin-bottom: 40px; }
+            
+            .module-grid, .test-grid, .faq-grid { grid-template-columns: 1fr; gap: 20px; }
+            .module-card { padding: 25px 20px; }
+            
+            /* 5. Precios */
+            .pricing-grid { flex-direction: column; align-items: center; width: 100%; }
+            .price-card { padding: 30px 25px; max-width: 100%; border-radius: 16px; margin-bottom: 20px; }
+            .price-card.popular { transform: none; margin: 15px 0; border-width: 2px; }
+
+            /* 6. Llamado a la acción (CTA) y Footer */
+            .cta-section { padding: 20px 20px 60px; }
+            .cta-box { padding: 40px 25px; border-radius: 20px; }
+
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .footer-col { text-align: center; }
+            .logo { justify-content: center; }
+            .social-links { justify-content: center; }
+            .floating-wa { bottom: 20px; right: 20px; width: 55px; height: 55px; }
+        }
+
+        /* MODAL PERSONALIZADO */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 17, 40, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInOverlay 0.25s ease;
+        }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 24px;
+            padding: 50px 45px 40px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            border: 1px solid rgba(212,175,55,0.2);
+            animation: slideUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .modal-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+        .modal-content h3 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        .modal-content p {
+            color: var(--text-muted);
+            font-size: 15.5px;
+            line-height: 1.65;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="https://wa.me/573146285171?text=Hola%20equipo%20de%20Nexia%20%F0%9F%91%8B%2C%20estoy%20revisando%20su%20p%C3%A1gina%20web%20y%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20sistema%20POS.%20%C2%BFMe%20asesoran%3F" class="floating-wa" target="_blank" title="Contactar por WhatsApp">
+        <div class="pulse-ring"></div>
+        <i data-lucide="message-circle" style="width: 32px; height: 32px; fill: white;"></i>
+    </a>
+
+    <nav>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <a href="#" class="logo">
+                <img src="logo-nexia.png" alt="Logo oficial Nexia POS">
+                NEXIA POS
+            </a>
+            <div class="nav-actions">
+                <a href="#" class="btn-text" onclick="openModal('Próximamente', 'El panel de acceso web estará disponible muy pronto. ¡Por ahora, solicita tu demo por WhatsApp!'); return false;">Iniciar Sesión</a>
+                <a href="https://wa.me/573146285171?text=Hola%20Nexia!%20Me%20interesa%20acceder%20a%20la%20prueba%20gratuita%20del%20sistema%20POS%20para%20mi%20negocio.%20%F0%9F%9A%80" class="btn btn-gold" target="_blank">
+                    <i data-lucide="play-circle" style="width: 17px; height: 17px;"></i> Probar Gratis
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <p class="tagline">El software que tu negocio merece</p>
+            <h1>Controla tu bar o restaurante <br><span>sin depender del internet</span></h1>
+            <p class="description">Creado por dueños de negocios para dueños de negocios. Toma pedidos en 3 segundos, cuadra tu inventario y recibe el cierre de caja directo en tu WhatsApp.</p>
+            <div class="hero-buttons">
+                <a href="https://wa.me/573146285171?text=Hola!%20Quiero%20agendar%20una%20demostraci%C3%B3n%20gratuita%20de%20Nexia%20POS%20para%20ver%20c%C3%B3mo%20funciona.%20%F0%9F%93%85" class="btn btn-gold" target="_blank">
+                    <i data-lucide="calendar"></i> AGENDAR DEMO GRATIS
+                </a>
+                <a href="#modulos" class="btn btn-outline-dark">CONOCER MÁS MÓDULOS</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <img src="interfaz-nexia.png" alt="Sistema POS Nexia en acción" class="preview-img" width="900" height="506">
+    </div>
+
+    <section class="modules" id="modulos">
+        <div class="container">
+            <header class="section-header">
+                <p class="tagline">Tu Bar, Bajo Control</p>
+                <h2>Módulos Especializados que Facilitan tu Vida</h2>
+            </header>
+
+            <div class="module-grid">
+                <div class="module-card">
+                    <div class="icon-container"><i data-lucide="wifi-off"></i></div>
+                    <h3>Tecnología Offline-First</h3>
+                    <p>¿Se cayó el internet de tu local? No te preocupes. Nexia te permite seguir cobrando y tomando pedidos sin conexión, sincronizando todo automáticamente al volver la red.</p>
+                </div>
+                <div class="module-card">
+                    <div class="icon-container"><i data-lucide="smartphone"></i></div>
+                    <h3>Cierres por WhatsApp</h3>
+                    <p>Olvídate de gastar papel. Genera el Cierre Z de tu turno y envíalo automáticamente al WhatsApp del administrador con el detalle exacto del dinero y productos vendidos.</p>
+                </div>
+                <div class="module-card">
+                    <div class="icon-container"><i data-lucide="boxes"></i></div>
+                    <h3>Cuadre de Inventario Físico</h3>
+                    <p>Evita el robo hormiga. Realiza auditorías de inventario en vivo, cruzando el stock de botellas y productos físicos con las ventas reales reportadas en la caja.</p>
+                </div>
+                <div class="module-card">
+                    <div class="icon-container"><i data-lucide="layout-grid"></i></div>
+                    <h3>Operación de Mesas</h3>
+                    <p>Divide cuentas fácilmente, mueve clientes de una mesa a otra, agrega notas a los pedidos de la barra y controla qué mesero está atendiendo cada zona del local.</p>
+                </div>
+                <div class="module-card">
+                    <div class="icon-container"><i data-lucide="notebook-pen"></i></div>
+                    <h3>Gestión de Cartera (Fiados)</h3>
+                    <p>Controla exactamente quién te debe dinero y qué consumió. Notifica a tus clientes de sus saldos pendientes enviando un recibo detallado por WhatsApp con un solo clic.</p>
+                </div>
+                <div class="module-card">
+                    <div class="icon-container"><i data-lucide="lock"></i></div>
+                    <h3>Seguridad y Permisos</h3>
+                    <p>Protege tu información. Crea perfiles con PIN para tus meseros y restringe su acceso únicamente a la toma de pedidos, bloqueando la caja y el inventario.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="precios">
+        <div class="container">
+            <div class="section-header" style="margin-bottom: 60px;">
+                <p class="tagline">Planes transparentes</p>
+                <h2>Elige el plan ideal para tu negocio</h2>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <div class="price-header">
+                        <h3>Plan Lite</h3>
+                        <div class="amount">$ 69.000 <span>/mes</span></div>
+                    </div>
+                    <ul class="price-list">
+                        <li><i data-lucide="check-circle-2"></i> Mesas y Categorías Ilimitadas</li>
+                        <li><i data-lucide="check-circle-2"></i> Envío de Recibos por WhatsApp</li>
+                        <li><i data-lucide="check-circle-2"></i> Hasta 3 Usuarios o Meseros</li>
+                        <li><i data-lucide="check-circle-2"></i> Control de Caja y Arqueo</li>
+                        <li class="disabled"><i data-lucide="minus-circle"></i> Cuadre de Inventario (Físico)</li>
+                        <li class="disabled"><i data-lucide="minus-circle"></i> Cartera de Clientes (Fiados)</li>
+                    </ul>
+                    <a href="https://wa.me/573146285171?text=Hola,%20estoy%20interesado%20en%20contratar%20el%20Plan%20LITE%20para%20mi%20negocio.%20¿Cómo%20es%20el%20proceso?" class="btn btn-outline" style="width: 100%;" target="_blank">Elegir Plan Lite</a>
+                </div>
+
+                <div class="price-card popular">
+                    <div class="badge">Más Popular</div>
+                    <div class="price-header">
+                        <h3>Plan CEO Pro</h3>
+                        <div class="amount">$ 119.000 <span>/mes</span></div>
+                    </div>
+                    <ul class="price-list">
+                        <li><i data-lucide="check-circle-2"></i> <strong>Todo lo del Plan Lite, más:</strong></li>
+                        <li><i data-lucide="check-circle-2"></i> Usuarios y Cajas Ilimitadas</li>
+                        <li><i data-lucide="check-circle-2"></i> Módulo de Inventario en Vivo</li>
+                        <li><i data-lucide="check-circle-2"></i> Control de Cartera (Fiados)</li>
+                        <li><i data-lucide="check-circle-2"></i> Kardex de Costos y Rentabilidad</li>
+                        <li><i data-lucide="check-circle-2"></i> Soporte Prioritario 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/573146285171?text=Hola%20Nexia%20👑,%20estoy%20listo%20para%20llevar%20mi%20negocio%20al%20siguiente%20nivel%20con%20el%20Plan%20CEO%20PRO.%20¿Cómo%20empezamos?" class="btn btn-gold" style="width: 100%;" target="_blank">Comenzar con PRO</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-header" style="margin-bottom: 60px;">
+                <p class="tagline">Resolvemos tus dudas</p>
+                <h2>Preguntas Frecuentes</h2>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4><i data-lucide="help-circle" size="20" style="color: var(--gold);"></i> ¿Necesito comprar computadores caros?</h4>
+                    <p>No. Nexia POS es un sistema basado en la nube y optimizado. Puedes usarlo en cualquier celular Android, iPhone, Tablet o computador viejo que tengas en tu negocio.</p>
+                </div>
+                <div class="faq-item">
+                    <h4><i data-lucide="help-circle" size="20" style="color: var(--gold);"></i> ¿Qué pasa si se va la luz o el internet?</h4>
+                    <p>¡No dejas de operar! Nuestro sistema tiene tecnología "Offline-First". Los meseros pueden seguir tomando pedidos y cobrando. Cuando el internet regrese, el sistema sube las ventas automáticamente.</p>
+                </div>
+                <div class="faq-item">
+                    <h4><i data-lucide="help-circle" size="20" style="color: var(--gold);"></i> ¿Tengo que pagar instalaciones o licencias anuales?</h4>
+                    <p>Manejamos un pago único de instalación muy accesible que incluye la configuración en tus dispositivos, además de <strong>capacitación totalmente gratis</strong> para tu equipo. Después, solo pagas tu mensualidad sin contratos de permanencia.</p>
+                </div>
+                <div class="faq-item">
+                    <h4><i data-lucide="help-circle" size="20" style="color: var(--gold);"></i> ¿Es fácil de enseñar a mis empleados?</h4>
+                    <p>Nexia fue diseñado para ser tan fácil de usar como WhatsApp. Un mesero nuevo sin experiencia previa puede aprender a facturar y comandar mesas en menos de 5 minutos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials" id="testimonios">
+        <div class="container">
+            <div class="section-header" style="margin-bottom: 60px;">
+                <p class="tagline">CASOS DE ÉXITO</p>
+                <h2 style="color: var(--text-main);">Lo que dicen nuestros clientes</h2>
+            </div>
+            
+            <div class="test-grid">
+                <div class="test-card">
+                    <div class="test-stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <p class="test-text">"Muy recomendado. El sistema es extremadamente cómodo y rápido, nos facilitó la vida en el servicio y la atención a las mesas."</p>
+                    <div class="test-author">
+                        <div class="test-avatar">D</div>
+                        <div class="test-info">
+                            <h5>Donde Bolli La Martina</h5>
+                            <span>Bar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card">
+                    <div class="test-stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <p class="test-text">"Buscaba algo sencillo porque mis meseros siempre se enredaban con los otros programas. Este lo agarraron de una. Lo mejor es que si se va el internet, la caja sigue funcionando normal."</p>
+                    <div class="test-author">
+                        <div class="test-avatar">E</div>
+                        <div class="test-info">
+                            <h5>El Barril Cervecería</h5>
+                            <span>Bar & Cervecería</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card">
+                    <div class="test-stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <p class="test-text">"Me quité un dolor de cabeza con los cuadres. Ahora me llega el reporte al WhatsApp apenas cierran turno y sé exactamente qué pasó sin tener que estar metido en el local."</p>
+                    <div class="test-author">
+                        <div class="test-avatar">F</div>
+                        <div class="test-info">
+                            <h5>Fuego & Sabor Gastrobar</h5>
+                            <span>Gastrobar</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-section">
+        <div class="cta-box">
+            <h2>Deja de perder tiempo y dinero hoy</h2>
+            <p>Implementa un sistema rápido, confiable y que tus empleados aprenderán a usar en menos de 5 minutos.</p>
+            <a href="https://wa.me/573146285171?text=Hola!%20Llegué%20al%20final%20de%20la%20página%20y%20quiero%20iniciar%20mi%20prueba%20de%207%20días%20gratis.%20🍻" class="btn btn-gold btn-cta-final" target="_blank">
+                <i data-lucide="calendar-check"></i> SOLICITAR DEMO GRATUITA
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom: 15px;">
+                        <img src="logo-nexia.png" alt="Logo oficial Nexia POS">
+                        NEXIA POS
+                    </div>
+                    <p class="brand-desc">La plataforma de gestión integral que tu negocio necesita para escalar sin límites y sin depender del internet.</p>
+                    <div class="social-links">
+                        <a href="https://wa.me/573146285171" title="WhatsApp" target="_blank">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Producto</h4>
+                    <ul>
+                        <li><a href="#modulos">Características</a></li>
+                        <li><a href="#precios">Precios y Planes</a></li>
+                        <li><a href="#testimonios">Casos de Éxito</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Soporte</h4>
+                    <ul>
+                        <li>
+                            <a href="https://wa.me/573146285171?text=Hola%20Nexia%20Ventas%2C%20tengo%20una%20consulta..." class="wa-link" target="_blank">
+                                <i data-lucide="message-square" size="16" style="color: var(--success);"></i> Contacto Directo
+                            </a>
+                        </li>
+                        <li><a href="#" onclick="openModal('Centro de Ayuda', 'Estamos preparando los mejores tutoriales en video para ti. ¡Próximamente!'); return false;">Centro de Ayuda</a></li>
+                        <li><a href="#" onclick="openModal('Tutoriales', 'Estamos preparando los mejores tutoriales en video para ti. ¡Próximamente!'); return false;">Tutoriales</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div style="margin-bottom: 15px;">
+                    <a href="terminos.html" style="color: var(--text-muted); text-decoration: none; margin: 0 10px; font-size: 13px; transition: 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Términos y Condiciones</a> |
+                    <a href="privacidad.html" style="color: var(--text-muted); text-decoration: none; margin: 0 10px; font-size: 13px; transition: 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Política de Privacidad</a>
+                </div>
+                <p>&copy; 2026 Nexia Software. Todos los derechos reservados.</p>
+                <p class="powered">DESARROLLADO EN COLOMBIA PARA BARES Y GASTRONOMÍA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        function openModal(titulo, mensaje) {
+            document.getElementById('modal-titulo').textContent = titulo;
+            document.getElementById('modal-mensaje').textContent = mensaje;
+            document.getElementById('customModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('customModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Cerrar al hacer clic fuera del modal
+        document.getElementById('customModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Cerrar con Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i data-lucide="sparkles" style="width: 36px; height: 36px; color: var(--gold);"></i>
+            </div>
+            <h3 id="modal-titulo">Próximamente</h3>
+            <p id="modal-mensaje">Estamos trabajando en esto para ti.</p>
+            <button onclick="closeModal()" class="btn btn-gold" style="width: 100%; margin-top: 5px;">ENTENDIDO</button>
+        </div>
+    </div>
+</body>
+</html>
